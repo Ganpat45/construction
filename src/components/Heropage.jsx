@@ -23,7 +23,7 @@ const HeroSlider = () => {
       description: "This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin. lorem quis bibendum auctor, nisi elit consequant.",
       bgImage: "/slide1.png", // Direct path from public folder
       layout: "center",
-      buttonLink: "/contact-us"
+      buttonLink: "/about-us"
     },
     {
       id: 2,
@@ -33,7 +33,7 @@ const HeroSlider = () => {
       bgImage: "/slide3.png", // Direct path from public folder
       rightImage: "/jcb1.png", // Direct path from public folder
       layout: "left",
-      buttonLink: "/contact-us"
+      buttonLink: "/about-us"
     },
     {
       id: 3,
@@ -43,7 +43,7 @@ const HeroSlider = () => {
       icons: false,
       rightImage: "/jcb2.png", // Direct path from public folder
       layout: "left",
-      buttonLink: "/contact-us"
+      buttonLink: "/about-us"
     },
   ]);
 

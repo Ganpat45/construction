@@ -448,7 +448,7 @@ export default function ServicesPage() {
   // Handle scroll effects
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 300) {
         setIsSticky(true);
       } else {
         setIsSticky(false);
@@ -516,7 +516,19 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 via-white to-white">
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-50 p-3 bg-yellow-500 text-white rounded-full shadow-lg hover:bg-yellow-600 transition-colors"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </motion.button>
+      )}
+
       {/* Hero Section with Background Image */}
       <section className="relative overflow-hidden">
         {/* Background Image with Overlay */}
@@ -539,6 +551,7 @@ export default function ServicesPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm mb-6">
                 <Sparkles className="w-4 h-4" />
@@ -578,30 +591,35 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Sticky Header */}
+      {/* FIXED Sticky Header - Positioned correctly */}
       <div
         className={`sticky top-0 z-50 transition-all duration-300 ${
           isSticky
             ? "bg-white shadow-lg border-b border-yellow-100 py-3"
-            : "bg-transparent py-0"
+            : "bg-gradient-to-r from-yellow-700/95 to-amber-800/95 backdrop-blur-sm py-4"
         }`}
+        style={{ 
+          position: 'sticky',
+          top: 0,
+          zIndex: 50
+        }}
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div
-                className={`p-2 rounded-lg ${
+                className={`p-2 rounded-lg transition-colors ${
                   isSticky ? "bg-yellow-100" : "bg-white/20"
                 }`}
               >
                 <Building2
-                  className={`w-6 h-6 ${
+                  className={`w-6 h-6 transition-colors ${
                     isSticky ? "text-yellow-600" : "text-white"
                   }`}
                 />
               </div>
               <h2
-                className={`text-xl font-bold ${
+                className={`text-lg md:text-xl font-bold transition-colors ${
                   isSticky ? "text-gray-900" : "text-white"
                 }`}
               >
@@ -610,6 +628,34 @@ export default function ServicesPage() {
             </div>
 
             <div className="flex items-center gap-4">
+              {/* Desktop Search and Contact */}
+              <div className="hidden md:flex items-center gap-4">
+                <div className="relative">
+                  <Search
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-500"
+                    size={20}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Search services..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 py-2 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-64"
+                  />
+                </div>
+                <Link
+                  href="/contact-us"
+                  className={`flex items-center gap-2 px-6 py-2 rounded-lg font-semibold transition-colors ${
+                    isSticky
+                      ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                      : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
+                  }`}
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>Get Quote</span>
+                </Link>
+              </div>
+
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -629,25 +675,17 @@ export default function ServicesPage() {
                   />
                 )}
               </button>
-
-              <Link
-                href="/contact-us"
-                className={`hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium ${
-                  isSticky
-                    ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                }`}
-              >
-                <Phone className="w-4 h-4" />
-                Contact
-              </Link>
             </div>
           </div>
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4">
-              <div className="bg-white rounded-lg shadow-lg p-4">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="md:hidden mt-4 pb-4"
+            >
+              <div className="bg-white rounded-lg shadow-xl p-4">
                 {/* Search in mobile menu */}
                 <div className="relative mb-4">
                   <Search
@@ -659,11 +697,11 @@ export default function ServicesPage() {
                     placeholder="Search services..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   {filteredServices.slice(0, 6).map((service) => (
                     <button
                       key={service.id}
@@ -672,14 +710,14 @@ export default function ServicesPage() {
                         setMobileMenuOpen(false);
                         scrollToServices();
                       }}
-                      className={`flex items-center gap-2 p-2 rounded ${
+                      className={`flex flex-col items-center gap-2 p-3 rounded-lg transition-colors ${
                         activeService === service.id
                           ? "bg-yellow-50 text-yellow-700"
                           : "text-gray-700 hover:bg-gray-50"
                       }`}
                     >
                       <span className="text-yellow-600">{service.icon}</span>
-                      <span className="text-sm font-medium">
+                      <span className="text-xs font-medium text-center">
                         {service.title}
                       </span>
                     </button>
@@ -688,13 +726,14 @@ export default function ServicesPage() {
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <Link
                     href="/contact-us"
-                    className="block w-full py-2 bg-yellow-500 text-white text-center rounded-lg font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full py-3 bg-yellow-500 text-white text-center rounded-lg font-medium hover:bg-yellow-600 transition-colors"
                   >
-                    Get Quote
+                    Get Free Quote
                   </Link>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
@@ -702,8 +741,8 @@ export default function ServicesPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         {/* Search and Filter Bar */}
-        <div className="mb-8">
-          <div className="bg-white rounded-xl border border-yellow-100 p-4 shadow-sm">
+        <div className="mb-8 pt-4">
+          <div className="bg-white rounded-2xl border border-yellow-100 p-4 md:p-6 shadow-sm">
             <div className="flex flex-col md:flex-row gap-4">
               {/* Search */}
               <div className="flex-1">
@@ -717,14 +756,14 @@ export default function ServicesPage() {
                     placeholder="Search construction services..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                   />
                   {searchTerm && (
                     <button
                       onClick={() => setSearchTerm("")}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      X
+                      <X size={16} />
                     </button>
                   )}
                 </div>
@@ -736,14 +775,14 @@ export default function ServicesPage() {
                   <button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all text-sm ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all text-sm whitespace-nowrap ${
                       activeCategory === category.id
-                        ? "bg-yellow-500 text-white"
+                        ? "bg-yellow-500 text-white shadow-sm"
                         : "bg-yellow-50 text-yellow-700 hover:bg-yellow-100"
                     }`}
                   >
                     <span>{category.icon}</span>
-                    <span>{category.label}</span>
+                    <span className="hidden sm:inline">{category.label}</span>
                   </button>
                 ))}
                 {(searchTerm || activeCategory !== "all") && (
@@ -773,13 +812,22 @@ export default function ServicesPage() {
                 for "<span className="font-semibold">{searchTerm}</span>"
               </span>
             )}
+            {activeCategory !== "all" && (
+              <span>
+                {" "}
+                in{" "}
+                <span className="font-semibold text-yellow-600">
+                  {categories.find(c => c.id === activeCategory)?.label}
+                </span>
+              </span>
+            )}
           </p>
         </div>
 
         {/* All Services Section */}
         <section id="all-services" className="mb-12">
           {filteredServices.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl border border-yellow-200">
+            <div className="text-center py-12 bg-white rounded-2xl border border-yellow-200">
               <div className="text-yellow-500 mb-4">
                 <Search size={48} className="mx-auto" />
               </div>
@@ -804,13 +852,13 @@ export default function ServicesPage() {
                   id={`service-${service.id}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: index * 0.05 }}
                   whileHover={{ y: -4 }}
                   onMouseEnter={() => setHoveredService(service.id)}
                   onMouseLeave={() => setHoveredService(null)}
                   onClick={() => setActiveService(service.id)}
-                  className={`bg-white rounded-xl border cursor-pointer transition-all ${
+                  className={`bg-white rounded-xl border cursor-pointer transition-all overflow-hidden ${
                     activeService === service.id
                       ? "border-yellow-400 shadow-lg ring-2 ring-yellow-100"
                       : "border-yellow-100 hover:border-yellow-300 hover:shadow-md"
@@ -819,7 +867,7 @@ export default function ServicesPage() {
                   <div className="p-5">
                     <div className="flex items-start gap-4 mb-4">
                       <div
-                        className={`p-3 rounded-lg ${
+                        className={`p-3 rounded-lg transition-colors ${
                           activeService === service.id
                             ? "bg-yellow-100 text-yellow-600"
                             : "bg-yellow-50 text-yellow-500"
@@ -863,7 +911,7 @@ export default function ServicesPage() {
                         {service.expertise}
                       </span>
                       <ChevronRight
-                        className={`w-4 h-4 ${
+                        className={`w-4 h-4 transition-colors ${
                           activeService === service.id
                             ? "text-yellow-600"
                             : "text-gray-400"
@@ -943,10 +991,20 @@ export default function ServicesPage() {
                         <div className="flex flex-wrap gap-4">
                           <Link
                             href="/contact-us"
-                            className="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-semibold transition-colors"
+                            className="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-semibold transition-colors flex items-center gap-2"
                           >
+                            <Phone className="w-4 h-4" />
                             Get Quote
                           </Link>
+                          <button
+                            onClick={() => {
+                              const nextIndex = (activeService % servicesData.length) + 1;
+                              setActiveService(nextIndex);
+                            }}
+                            className="px-6 py-3 border border-yellow-500 text-yellow-600 rounded-lg hover:bg-yellow-50 font-semibold transition-colors"
+                          >
+                            Next Service
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -962,13 +1020,13 @@ export default function ServicesPage() {
             <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
               <span className="text-yellow-600">Additional</span> Services
             </h3>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
               Complementary services for your construction project
             </p>
           </div>
 
           {/* Single responsive grid */}
-          <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {additionalServices.map((service, index) => (
               <motion.div
                 key={service.id}
@@ -1030,33 +1088,73 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="bg-gradient-to-r from-yellow-500 to-amber-500 rounded-2xl p-8 md:p-12 text-center">
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Need Professional Construction Services?
-            </h3>
-            <p className="text-white mb-6">
-              Contact us today for expert solutions and personalized service
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="tel:1234-5678-9012"
-                className="inline-flex items-center justify-center gap-3 px-8 py-3 bg-white text-yellow-700 rounded-lg hover:bg-yellow-50 font-semibold transition-all"
-              >
-                <Phone className="w-5 h-5" />
-                <span>Call Now</span>
-              </Link>
-              <Link
-                href="mailto:info@domain.com"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 font-semibold transition-all"
-              >
-                <Mail className="w-5 h-5" />
-                <span>Email Us</span>
-              </Link>
-            </div>
+        {/* Enhanced CTA Section - WITHOUT background image */}
+       {/* Enhanced CTA Section - WITHOUT background image */}
+<section className="relative overflow-hidden rounded-2xl mb-12">
+  {/* Background gradient only - no image */}
+  <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    {/* Subtle gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/30" />
+  </div>
+  
+  <div className="relative z-10 p-8 md:p-12 lg:p-16 text-center">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="max-w-3xl mx-auto"
+    >
+      {/* Icon/Decoration */}
+      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-500/20 mb-6">
+        <Building2 className="w-8 h-8 text-yellow-400" />
+      </div>
+      
+      <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        Ready to Build Your Dream Project?
+      </h3>
+      <p className="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
+        Contact us today for expert solutions, personalized service, and 
+        a commitment to excellence that stands the test of time.
+      </p>
+      
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* FIXED: Use regular a tag for tel: links */}
+        <a
+          href="tel:+1234567890"
+          className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 font-semibold transition-all transform hover:scale-105 shadow-lg"
+        >
+          <Phone className="w-5 h-5 group-hover:animate-pulse" />
+          <span>Call Now: (123) 456-7890</span>
+        </a>
+        <Link
+          href="/contact-us"
+          className="group inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 font-semibold transition-all transform hover:scale-105"
+        >
+          <Mail className="w-5 h-5" />
+          <span>Request Free Consultation</span>
+        </Link>
+      </div>
+      
+      {/* Additional Info */}
+      <div className="mt-8 pt-8 border-t border-white/20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white/80">
+          <div className="flex items-center justify-center gap-2">
+            <Clock className="w-5 h-5 text-yellow-400" />
+            <span>24/7 Emergency Service</span>
           </div>
-        </section>
+          <div className="flex items-center justify-center gap-2">
+            <Award className="w-5 h-5 text-yellow-400" />
+            <span>Licensed & Insured</span>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <CheckCircle className="w-5 h-5 text-yellow-400" />
+            <span>Free Estimates</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  </div>
+</section>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const Testimonials = () => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [newFeedback, setNewFeedback] = useState({
     name: "",
-    role: "Patient",
+    role: "Client",
     content: "",
     rating: 5,
   });
@@ -46,9 +46,7 @@ const Testimonials = () => {
 
   // Function to get avatar based on name
   const getAvatar = (name) => {
-    const index = name
-      .split("")
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const index = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return AVATARS[index % AVATARS.length];
   };
 
@@ -57,9 +55,8 @@ const Testimonials = () => {
     {
       id: 1,
       name: "Rajesh Kumar",
-      role: "Patient",
-      content:
-        "Excellent service and accurate reports. The staff is very cooperative and the facility is hygienic.",
+      role: "Client",
+      content: "Excellent construction work and attention to detail. The team delivered our dream home on time and within budget. Highly recommended!",
       rating: 5,
       avatar: getAvatar("Rajesh Kumar"),
       date: "2024-01-15",
@@ -67,9 +64,8 @@ const Testimonials = () => {
     {
       id: 2,
       name: "Sunita Sharma",
-      role: "Patient",
-      content:
-        "Got my mammography done here. Very professional approach and early detection helped in timely treatment.",
+      role: "Architect",
+      content: "Professional approach with excellent execution. They understood our architectural vision perfectly and implemented it flawlessly.",
       rating: 5,
       avatar: getAvatar("Sunita Sharma"),
       date: "2024-01-10",
@@ -77,9 +73,8 @@ const Testimonials = () => {
     {
       id: 3,
       name: "Dr. Amit Gupta",
-      role: "Referring Doctor",
-      content:
-        "Reliable diagnostic center with accurate reporting. I regularly refer my patients here.",
+      role: "Project Manager",
+      content: "Reliable construction company with quality workmanship. I regularly recommend them for commercial projects.",
       rating: 5,
       avatar: getAvatar("Amit Gupta"),
       date: "2024-01-05",
@@ -87,9 +82,8 @@ const Testimonials = () => {
     {
       id: 4,
       name: "Priya Patel",
-      role: "Patient",
-      content:
-        "The MRI experience was smooth and comfortable. Staff explained everything clearly and made me feel at ease.",
+      role: "Home Owner",
+      content: "The interior finishing work was exceptional. They paid attention to every small detail and delivered beyond expectations.",
       rating: 4,
       avatar: getAvatar("Priya Patel"),
       date: "2023-12-28",
@@ -97,9 +91,8 @@ const Testimonials = () => {
     {
       id: 5,
       name: "Vikram Singh",
-      role: "Patient",
-      content:
-        "Quick service with accurate results. The whole process was very efficient and professional.",
+      role: "Civil Engineer",
+      content: "Strong technical expertise and adherence to safety standards. The structural work is solid and reliable.",
       rating: 5,
       avatar: getAvatar("Vikram Singh"),
       date: "2023-12-20",
@@ -107,9 +100,8 @@ const Testimonials = () => {
     {
       id: 6,
       name: "Neha Desai",
-      role: "Patient",
-      content:
-        "Excellent pediatric care. My child was comfortable throughout the ultrasound procedure.",
+      role: "Interior Designer",
+      content: "Creative solutions with practical implementation. They transformed our design concepts into beautiful reality.",
       rating: 5,
       avatar: getAvatar("Neha Desai"),
       date: "2023-12-15",
@@ -117,9 +109,8 @@ const Testimonials = () => {
     {
       id: 7,
       name: "Anil Verma",
-      role: "Healthcare Professional",
-      content:
-        "As a healthcare professional, I appreciate the precision and reliability of their diagnostic services.",
+      role: "Contractor",
+      content: "As a fellow contractor, I appreciate their professionalism and commitment to quality in every project.",
       rating: 4,
       avatar: getAvatar("Anil Verma"),
       date: "2023-12-10",
@@ -127,9 +118,8 @@ const Testimonials = () => {
     {
       id: 8,
       name: "Meera Reddy",
-      role: "Patient",
-      content:
-        "The CT scan was done professionally. Clean facility and caring staff made the experience comfortable.",
+      role: "Commercial Client",
+      content: "The commercial building construction was done professionally. Clean site management and timely completion.",
       rating: 5,
       avatar: getAvatar("Meera Reddy"),
       date: "2023-12-05",
@@ -137,9 +127,8 @@ const Testimonials = () => {
     {
       id: 9,
       name: "Suresh Nair",
-      role: "Patient",
-      content:
-        "Accurate blood test reports with quick turnaround. Highly recommended for routine checkups.",
+      role: "Site Supervisor",
+      content: "Accurate planning and efficient execution. Their project management skills ensured smooth workflow throughout.",
       rating: 5,
       avatar: getAvatar("Suresh Nair"),
       date: "2023-11-30",
@@ -147,9 +136,8 @@ const Testimonials = () => {
     {
       id: 10,
       name: "Kavita Joshi",
-      role: "Patient",
-      content:
-        "Excellent cardiology services. The echocardiogram was thorough and the doctor explained everything clearly.",
+      role: "Real Estate Developer",
+      content: "Excellent construction services for our housing project. Quality materials and skilled labor made all the difference.",
       rating: 5,
       avatar: getAvatar("Kavita Joshi"),
       date: "2023-11-25",
@@ -157,9 +145,8 @@ const Testimonials = () => {
     {
       id: 11,
       name: "Rahul Mehta",
-      role: "Patient",
-      content:
-        "Professional team with state-of-the-art equipment. My biopsy procedure went smoothly.",
+      role: "Building Consultant",
+      content: "Professional team with modern equipment. The renovation work on our heritage property was handled expertly.",
       rating: 4,
       avatar: getAvatar("Rahul Mehta"),
       date: "2023-11-20",
@@ -167,9 +154,8 @@ const Testimonials = () => {
     {
       id: 12,
       name: "Shweta Kapoor",
-      role: "Patient",
-      content:
-        "The staff was very supportive during my pregnancy ultrasound. Made the experience memorable.",
+      role: "Property Owner",
+      content: "The team was very supportive during our house construction. They made the entire process stress-free.",
       rating: 5,
       avatar: getAvatar("Shweta Kapoor"),
       date: "2023-11-15",
@@ -177,9 +163,8 @@ const Testimonials = () => {
     {
       id: 13,
       name: "Sanjay Rao",
-      role: "Referring Doctor",
-      content:
-        "Consistently reliable reports. I trust their diagnostics for my patients' critical cases.",
+      role: "Structural Engineer",
+      content: "Consistently reliable construction quality. I trust their work for all critical structural projects.",
       rating: 5,
       avatar: getAvatar("Sanjay Rao"),
       date: "2023-11-10",
@@ -187,9 +172,8 @@ const Testimonials = () => {
     {
       id: 14,
       name: "Pooja Shah",
-      role: "Patient",
-      content:
-        "Excellent dental X-ray services. Quick and painless procedure with accurate results.",
+      role: "Vastu Consultant",
+      content: "Excellent implementation of Vastu principles in construction. They respected our requirements perfectly.",
       rating: 5,
       avatar: getAvatar("Pooja Shah"),
       date: "2023-11-05",
@@ -197,9 +181,8 @@ const Testimonials = () => {
     {
       id: 15,
       name: "Manoj Tiwari",
-      role: "Patient",
-      content:
-        "Professional and caring staff. The physiotherapy sessions helped me recover quickly.",
+      role: "Construction Manager",
+      content: "Professional and safety-conscious team. Their work standards are exemplary in the construction industry.",
       rating: 4,
       avatar: getAvatar("Manoj Tiwari"),
       date: "2023-10-30",
@@ -226,9 +209,7 @@ const Testimonials = () => {
   const prevTestimonial = () => {
     setCurrentIndex((prev) => {
       if (displayedTestimonials.length === 0) return 0;
-      return (
-        (prev - 1 + displayedTestimonials.length) % displayedTestimonials.length
-      );
+      return (prev - 1 + displayedTestimonials.length) % displayedTestimonials.length;
     });
   };
 
@@ -265,7 +246,7 @@ const Testimonials = () => {
     setTestimonials([newTestimonial, ...testimonials]);
     setNewFeedback({
       name: "",
-      role: "Patient",
+      role: "Client",
       content: "",
       rating: 5,
     });
@@ -317,13 +298,13 @@ const Testimonials = () => {
         <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-yellow-50 text-yellow-600 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-semibold mb-4 md:mb-6">
             <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
-            PATIENT FEEDBACK
+            CLIENT FEEDBACK
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
             Client Testimonials & Reviews
           </h2>
           <p className="text-base sm:text-lg md:text-lg text-gray-600">
-            Real stories from patients who trusted us with their health
+            Real stories from clients who trusted us with their construction projects
           </p>
         </div>
 
@@ -346,14 +327,16 @@ const Testimonials = () => {
                   {/* Rating */}
                   <div className="flex justify-center items-center mb-6 md:mb-8">
                     <div className="flex gap-1">
-                      {[...Array(testimonials[currentIndex]?.rating || 5)].map(
-                        (_, i) => (
-                          <Star
-                            key={i}
-                            className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 fill-current"
-                          />
+                      {[
+                        ...Array(
+                          testimonials[currentIndex]?.rating || 5,
                         ),
-                      )}
+                      ].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 fill-current"
+                        />
+                      ))}
                     </div>
                   </div>
 
@@ -362,7 +345,7 @@ const Testimonials = () => {
                     "{testimonials[currentIndex]?.content || ""}"
                   </p>
 
-                  {/* Patient Info */}
+                  {/* Client Info */}
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
                     <div className="flex items-center gap-4 md:gap-6">
                       <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center overflow-hidden border-2 border-yellow-500 bg-white">
@@ -380,7 +363,8 @@ const Testimonials = () => {
                         </h4>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
                           <p className="text-gray-600 text-sm sm:text-base">
-                            {testimonials[currentIndex]?.role || "Patient"}
+                            {testimonials[currentIndex]?.role ||
+                              "Client"}
                           </p>
                           <span className="text-gray-400 text-xs sm:text-sm">
                             {testimonials[currentIndex]?.date || ""}
@@ -494,12 +478,21 @@ const Testimonials = () => {
                         }
                         className="w-full px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-sm sm:text-base"
                       >
-                        <option value="Patient">Patient</option>
-                        <option value="Referring Doctor">Doctor</option>
-                        <option value="Healthcare Professional">
-                          Healthcare Professional
-                        </option>
-                        <option value="Family Member">Family Member</option>
+                        <option value="Client">Client / Home Owner</option>
+                        <option value="Architect">Architect</option>
+                        <option value="Interior Designer">Interior Designer</option>
+                        <option value="Civil Engineer">Civil Engineer</option>
+                        <option value="Structural Engineer">Structural Engineer</option>
+                        <option value="Project Manager">Project Manager</option>
+                        <option value="Site Supervisor">Site Supervisor</option>
+                        <option value="Construction Manager">Construction Manager</option>
+                        <option value="Contractor">Contractor</option>
+                        <option value="Building Consultant">Building Consultant</option>
+                        <option value="Real Estate Developer">Real Estate Developer</option>
+                        <option value="Vastu Consultant">Vastu Consultant</option>
+                        <option value="Commercial Client">Commercial Client</option>
+                        <option value="Government Official">Government Official</option>
+                        <option value="Infrastructure Developer">Infrastructure Developer</option>
                       </select>
                     </div>
 
@@ -540,7 +533,7 @@ const Testimonials = () => {
                         }
                         rows="3"
                         className="w-full px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 text-sm sm:text-base"
-                        placeholder="Share your experience..."
+                        placeholder="Share your construction experience..."
                       />
                     </div>
 
@@ -644,6 +637,8 @@ const Testimonials = () => {
                     )}
                   </div>
                 )}
+
+              
               </div>
             )}
           </div>
