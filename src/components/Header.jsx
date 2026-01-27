@@ -179,26 +179,28 @@ const ConstructionHeader = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
             {/* Sticky Logo - Desktop के लिए */}
-            
-              {isSticky && (
-  <div className="hidden lg:flex items-center">
-    <Link href="/" className="block">
-      <div className="relative w-48 h-12">
-        <Image
-          src={logo}
-          alt="CONSTRUCTION"
-          fill
-          className="object-contain"
-          style={{ 
-            filter: 'brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(80%) contrast(100%)' 
-          }}
-        />
-      </div>
-    </Link>
-  </div>
-)}
+            {isSticky && (
+              <div className="hidden lg:flex items-center mr-8"> {/* यहाँ mr-8 add किया है */}
+                <Link href="/" className="block">
+                  <div className="relative w-48 h-12">
+                    <Image
+                      src={logo}
+                      alt="CONSTRUCTION"
+                      fill
+                      className="object-contain"
+                      style={{ 
+                        filter: 'brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(80%) contrast(100%)' 
+                      }}
+                    />
+                  </div>
+                </Link>
+              </div>
+            )}
+
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-stretch h-full flex-1">
+            <nav className={`hidden lg:flex items-stretch h-full ${
+              isSticky ? 'flex-1' : 'flex-1' 
+            }`}>
               {navItems.map((item, index) => {
                 const active = isActive(item.href);
                 return (
@@ -370,4 +372,3 @@ const ConstructionHeader = () => {
 };
 
 export default ConstructionHeader;
-
