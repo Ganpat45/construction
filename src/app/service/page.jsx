@@ -107,9 +107,7 @@ const StatCounter = ({ value, suffix, label, duration = 2000 }) => {
 const SupportCounter = () => {
   return (
     <div className="text-center">
-      <div className="text-3xl md:text-4xl font-bold text-white mb-2">
-        24/7
-      </div>
+      <div className="text-3xl md:text-4xl font-bold text-white mb-2">24/7</div>
       <div className="text-white font-medium">Support Available</div>
     </div>
   );
@@ -532,20 +530,23 @@ export default function ServicesPage() {
       {/* Hero Section with Background Image */}
       <section className="relative overflow-hidden">
         {/* Background Image with Overlay */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
           }}
         >
           {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-yellow-700/90 to-amber-800/90 mix-blend-multiply" />
           {/* Subtle pattern overlay */}
-          <div className="absolute inset-0 opacity-20" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-          }} />
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            }}
+          />
         </div>
-        
+
         <div className="container relative z-10 mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
@@ -590,153 +591,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
-      {/* FIXED Sticky Header - Positioned correctly */}
-      <div
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isSticky
-            ? "bg-white shadow-lg border-b border-yellow-100 py-3"
-            : "bg-gradient-to-r from-yellow-700/95 to-amber-800/95 backdrop-blur-sm py-4"
-        }`}
-        style={{ 
-          position: 'sticky',
-          top: 0,
-          zIndex: 50
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div
-                className={`p-2 rounded-lg transition-colors ${
-                  isSticky ? "bg-yellow-100" : "bg-white/20"
-                }`}
-              >
-                <Building2
-                  className={`w-6 h-6 transition-colors ${
-                    isSticky ? "text-yellow-600" : "text-white"
-                  }`}
-                />
-              </div>
-              <h2
-                className={`text-lg md:text-xl font-bold transition-colors ${
-                  isSticky ? "text-gray-900" : "text-white"
-                }`}
-              >
-                All Construction Services
-              </h2>
-            </div>
-
-            <div className="flex items-center gap-4">
-              {/* Desktop Search and Contact */}
-              <div className="hidden md:flex items-center gap-4">
-                <div className="relative">
-                  <Search
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-500"
-                    size={20}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search services..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-64"
-                  />
-                </div>
-                <Link
-                  href="/contact-us"
-                  className={`flex items-center gap-2 px-6 py-2 rounded-lg font-semibold transition-colors ${
-                    isSticky
-                      ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                      : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
-                  }`}
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Get Quote</span>
-                </Link>
-              </div>
-
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2"
-              >
-                {mobileMenuOpen ? (
-                  <X
-                    className={`w-6 h-6 ${
-                      isSticky ? "text-gray-700" : "text-white"
-                    }`}
-                  />
-                ) : (
-                  <Menu
-                    className={`w-6 h-6 ${
-                      isSticky ? "text-gray-700" : "text-white"
-                    }`}
-                  />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="md:hidden mt-4 pb-4"
-            >
-              <div className="bg-white rounded-lg shadow-xl p-4">
-                {/* Search in mobile menu */}
-                <div className="relative mb-4">
-                  <Search
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-500"
-                    size={20}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search services..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  {filteredServices.slice(0, 6).map((service) => (
-                    <button
-                      key={service.id}
-                      onClick={() => {
-                        setActiveService(service.id);
-                        setMobileMenuOpen(false);
-                        scrollToServices();
-                      }}
-                      className={`flex flex-col items-center gap-2 p-3 rounded-lg transition-colors ${
-                        activeService === service.id
-                          ? "bg-yellow-50 text-yellow-700"
-                          : "text-gray-700 hover:bg-gray-50"
-                      }`}
-                    >
-                      <span className="text-yellow-600">{service.icon}</span>
-                      <span className="text-xs font-medium text-center">
-                        {service.title}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <Link
-                    href="/contact-us"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block w-full py-3 bg-yellow-500 text-white text-center rounded-lg font-medium hover:bg-yellow-600 transition-colors"
-                  >
-                    Get Free Quote
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
@@ -817,7 +671,7 @@ export default function ServicesPage() {
                 {" "}
                 in{" "}
                 <span className="font-semibold text-yellow-600">
-                  {categories.find(c => c.id === activeCategory)?.label}
+                  {categories.find((c) => c.id === activeCategory)?.label}
                 </span>
               </span>
             )}
@@ -998,7 +852,8 @@ export default function ServicesPage() {
                           </Link>
                           <button
                             onClick={() => {
-                              const nextIndex = (activeService % servicesData.length) + 1;
+                              const nextIndex =
+                                (activeService % servicesData.length) + 1;
                               setActiveService(nextIndex);
                             }}
                             className="px-6 py-3 border border-yellow-500 text-yellow-600 rounded-lg hover:bg-yellow-50 font-semibold transition-colors"
@@ -1066,7 +921,9 @@ export default function ServicesPage() {
                 <div className="text-3xl md:text-4xl font-bold text-white mb-2">
                   98%
                 </div>
-                <div className="text-white font-medium">Client Satisfaction</div>
+                <div className="text-white font-medium">
+                  Client Satisfaction
+                </div>
               </div>
 
               {/* Expert Team - ANIMATED */}
@@ -1089,72 +946,72 @@ export default function ServicesPage() {
         </section>
 
         {/* Enhanced CTA Section - WITHOUT background image */}
-       {/* Enhanced CTA Section - WITHOUT background image */}
-<section className="relative overflow-hidden rounded-2xl mb-12">
-  {/* Background gradient only - no image */}
-  <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-    {/* Subtle gradient overlay */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/30" />
-  </div>
-  
-  <div className="relative z-10 p-8 md:p-12 lg:p-16 text-center">
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="max-w-3xl mx-auto"
-    >
-      {/* Icon/Decoration */}
-      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-500/20 mb-6">
-        <Building2 className="w-8 h-8 text-yellow-400" />
-      </div>
-      
-      <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-        Ready to Build Your Dream Project?
-      </h3>
-      <p className="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
-        Contact us today for expert solutions, personalized service, and 
-        a commitment to excellence that stands the test of time.
-      </p>
-      
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        {/* FIXED: Use regular a tag for tel: links */}
-        <a
-          href="tel:+1234567890"
-          className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 font-semibold transition-all transform hover:scale-105 shadow-lg"
-        >
-          <Phone className="w-5 h-5 group-hover:animate-pulse" />
-          <span>Call Now: (123) 456-7890</span>
-        </a>
-        <Link
-          href="/contact-us"
-          className="group inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 font-semibold transition-all transform hover:scale-105"
-        >
-          <Mail className="w-5 h-5" />
-          <span>Request Free Consultation</span>
-        </Link>
-      </div>
-      
-      {/* Additional Info */}
-      <div className="mt-8 pt-8 border-t border-white/20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white/80">
-          <div className="flex items-center justify-center gap-2">
-            <Clock className="w-5 h-5 text-yellow-400" />
-            <span>24/7 Emergency Service</span>
+        {/* Enhanced CTA Section - WITHOUT background image */}
+        <section className="relative overflow-hidden rounded-2xl mb-12">
+          {/* Background gradient only - no image */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/30" />
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <Award className="w-5 h-5 text-yellow-400" />
-            <span>Licensed & Insured</span>
+
+          <div className="relative z-10 p-8 md:p-12 lg:p-16 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-3xl mx-auto"
+            >
+              {/* Icon/Decoration */}
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-500/20 mb-6">
+                <Building2 className="w-8 h-8 text-yellow-400" />
+              </div>
+
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Ready to Build Your Dream Project?
+              </h3>
+              <p className="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
+                Contact us today for expert solutions, personalized service, and
+                a commitment to excellence that stands the test of time.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {/* FIXED: Use regular a tag for tel: links */}
+                <a
+                  href="tel:+1234567890"
+                  className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 font-semibold transition-all transform hover:scale-105 shadow-lg"
+                >
+                  <Phone className="w-5 h-5 group-hover:animate-pulse" />
+                  <span>Call Now: (123) 456-7890</span>
+                </a>
+                <Link
+                  href="/contact-us"
+                  className="group inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 font-semibold transition-all transform hover:scale-105"
+                >
+                  <Mail className="w-5 h-5" />
+                  <span>Request Free Consultation</span>
+                </Link>
+              </div>
+
+              {/* Additional Info */}
+              <div className="mt-8 pt-8 border-t border-white/20">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white/80">
+                  <div className="flex items-center justify-center gap-2">
+                    <Clock className="w-5 h-5 text-yellow-400" />
+                    <span>24/7 Emergency Service</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Award className="w-5 h-5 text-yellow-400" />
+                    <span>Licensed & Insured</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-yellow-400" />
+                    <span>Free Estimates</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <CheckCircle className="w-5 h-5 text-yellow-400" />
-            <span>Free Estimates</span>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  </div>
-</section>
+        </section>
       </div>
     </div>
   );
