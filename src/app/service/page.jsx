@@ -103,55 +103,12 @@ const StatCounter = ({ value, suffix, label, duration = 2000 }) => {
   );
 };
 
-// Special component for 24/7 animation
+// Special component for 24/7 animation - CHANGED TO STATIC
 const SupportCounter = () => {
-  const [hours, setHours] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          const duration = 2000;
-          const steps = 60;
-          const increment = 24 / steps;
-          let current = 0;
-          let step = 0;
-
-          const animate = () => {
-            if (step < steps) {
-              current += increment;
-              setHours(Math.floor(current));
-              step++;
-              setTimeout(animate, duration / steps);
-            } else {
-              setHours(24);
-              setHasAnimated(true);
-            }
-          };
-
-          animate();
-        }
-      },
-      { threshold: 0.3 },
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [hasAnimated]);
-
   return (
-    <div ref={ref} className="text-center">
+    <div className="text-center">
       <div className="text-3xl md:text-4xl font-bold text-white mb-2">
-        {hasAnimated ? "24/7" : `${hours}/7`}
+        24/7
       </div>
       <div className="text-white font-medium">Support Available</div>
     </div>
@@ -1034,11 +991,11 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Stats Section - ALL ANIMATED */}
+        {/* Stats Section - MIXED ANIMATED & STATIC */}
         <section id="stats-section" className="mb-12">
           <div className="bg-gradient-to-r from-yellow-500 to-amber-500 rounded-2xl p-8 md:p-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              {/* Projects Completed - Animated from 0 to 500+ */}
+              {/* Projects Completed - ANIMATED */}
               <StatCounter
                 value={500}
                 suffix="+"
@@ -1046,15 +1003,15 @@ export default function ServicesPage() {
                 duration={2500}
               />
 
-              {/* Client Satisfaction - Animated from 0 to 98% */}
-              <StatCounter
-                value={98}
-                suffix="%"
-                label="Client Satisfaction"
-                duration={2000}
-              />
+              {/* Client Satisfaction - STATIC */}
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  98%
+                </div>
+                <div className="text-white font-medium">Client Satisfaction</div>
+              </div>
 
-              {/* Expert Team - Animated from 0 to 50+ */}
+              {/* Expert Team - ANIMATED */}
               <StatCounter
                 value={50}
                 suffix="+"
@@ -1062,8 +1019,13 @@ export default function ServicesPage() {
                 duration={1500}
               />
 
-              {/* Support Available - Animated from 0/7 to 24/7 */}
-              <SupportCounter />
+              {/* Support Available - STATIC */}
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  24/7
+                </div>
+                <div className="text-white font-medium">Support Available</div>
+              </div>
             </div>
           </div>
         </section>

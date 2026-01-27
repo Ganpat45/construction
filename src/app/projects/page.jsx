@@ -228,6 +228,18 @@ export default function ProjectsPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Track liked projects with their like counts
+  const [projectLikes, setProjectLikes] = useState(() => {
+    const initialLikes = {};
+    projectsData.forEach(project => {
+      initialLikes[project.id] = {
+        baseLikes: project.likes,
+        additionalLikes: 0
+      };
+    });
+    return initialLikes;
+  });
+
   // Detect mobile and scroll
   useEffect(() => {
     const checkMobile = () => {
@@ -309,9 +321,25 @@ export default function ProjectsPage() {
 
   const handleLike = (id) => {
     if (likedProjects.includes(id)) {
+      // Unlike: remove from liked projects and decrease additional likes
       setLikedProjects(likedProjects.filter(projectId => projectId !== id));
+      setProjectLikes(prev => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          additionalLikes: prev[id].additionalLikes - 1
+        }
+      }));
     } else {
+      // Like: add to liked projects and increase additional likes
       setLikedProjects([...likedProjects, id]);
+      setProjectLikes(prev => ({
+        ...prev,
+        [id]: {
+          ...prev[id],
+          additionalLikes: prev[id].additionalLikes + 1
+        }
+      }));
     }
   };
 
@@ -343,6 +371,14 @@ export default function ProjectsPage() {
     setSearchTerm('');
     setSortBy('newest');
     setShowMobileFilters(false);
+  };
+
+  // Calculate total likes for a project
+  const getTotalLikes = (projectId) => {
+    if (projectLikes[projectId]) {
+      return projectLikes[projectId].baseLikes + projectLikes[projectId].additionalLikes;
+    }
+    return projectsData.find(p => p.id === projectId)?.likes || 0;
   };
 
   return (
@@ -802,8 +838,8 @@ export default function ProjectsPage() {
                     transition={{ duration: 0.3 }}
                     className="touch-manipulation"
                   >
-                    <Link href={`/projects/${project.id}`} className="block">
-                      <div className={`
+                    {/* Removed: Link wrapper */}
+                    <div className={`
                         ${viewMode === 'grid' 
                           ? 'h-full hover:shadow-xl md:hover:shadow-2xl' 
                           : 'flex flex-col lg:flex-row gap-4 md:gap-6 lg:hover:bg-gradient-to-r lg:hover:from-amber-50 lg:hover:to-yellow-50 p-4 md:p-6'
@@ -848,8 +884,8 @@ export default function ProjectsPage() {
                             </span>
                           </div>
                           
-                          {/* Social Actions */}
-                          <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20 flex gap-1 md:gap-2">
+                          {/* Social Actions - REMOVED: Share button */}
+                          <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20">
                             <button 
                               onClick={(e) => {
                                 e.preventDefault();
@@ -866,15 +902,6 @@ export default function ProjectsPage() {
                                     : 'text-gray-600'
                                 }`}
                               />
-                            </button>
-                            <button 
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                              }}
-                              className="p-1.5 md:p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all hover:scale-110 active:scale-95"
-                            >
-                              <Share2 size={14} className="text-gray-600" />
                             </button>
                           </div>
                         </div>
@@ -939,36 +966,23 @@ export default function ProjectsPage() {
 
                             {/* Bottom Actions */}
                             <div className="mt-auto pt-3 md:pt-4 border-t border-gray-100 flex items-center justify-between">
-                              <span className="text-amber-600 hover:text-amber-800 font-medium flex items-center gap-1 group text-sm md:text-base">
-                                View Details
-                                <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                              </span>
+                              {/* Empty div to maintain spacing */}
+                              <div></div>
                               <div className="flex items-center gap-2 md:gap-3">
+                                {/* Show dynamic likes count */}
                                 <span className="flex items-center gap-1 text-xs text-gray-500">
                                   <Heart size={10} className={`${
                                     likedProjects.includes(project.id) 
                                       ? 'fill-red-500 text-red-500' 
                                       : 'text-gray-400'
                                   }`} />
-                                  {likedProjects.includes(project.id) ? project.likes + 1 : project.likes}
+                                  {getTotalLikes(project.id)}
                                 </span>
-                                <button 
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    window.open(project.image, '_blank');
-                                  }}
-                                  className="p-1 hover:bg-amber-100 rounded-full transition-colors active:scale-95"
-                                  title="Download Image"
-                                >
-                                  <Download size={12} className="text-amber-500" />
-                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </Link>
                   </motion.div>
                 ))}
               </div>

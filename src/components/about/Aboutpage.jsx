@@ -322,7 +322,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/contact"
+                href="/contact-us"
                 className="bg-white text-yellow-600 font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center shadow-lg"
               >
                 Get Free Quote

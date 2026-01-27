@@ -4,11 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import slide1 from "../../public/slide1.png";
-import slide2 from "../../public/slide2.png";
-import slide3 from "../../public/slide3.png";
-import jcb1 from "../../public/jcb1.png";
-import jcb2 from "../../public/jcb2.png";
+import { useRouter } from "next/navigation";
 
 const HeroSlider = () => {
   const [mounted, setMounted] = useState(false);
@@ -16,6 +12,7 @@ const HeroSlider = () => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const router = useRouter();
   
   // Refs for consistent values
   const slidesRef = useRef([
@@ -23,31 +20,34 @@ const HeroSlider = () => {
       id: 1,
       title: "Construction Template",
       subtitle: "Built with Bootstrap",
-      description:
-        "This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin. lorem quis bibendum auctor, nisi elit consequant.",
-      bgImage: slide1,
+      description: "This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin. lorem quis bibendum auctor, nisi elit consequant.",
+      bgImage: "/slide1.png", // Direct path from public folder
       layout: "center",
+      buttonLink: "/contact-us"
     },
     {
       id: 2,
       title: "Flexible and Easy to Use Template",
       subtitle: "Ultra Responsive Layout",
-      description:
-        "This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin. lorem quis bibendum auctor, nisi elit consequant.",
-      bgImage: slide3,
-      rightImage: jcb1,
+      description: "This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin. lorem quis bibendum auctor, nisi elit consequant.",
+      bgImage: "/slide3.png", // Direct path from public folder
+      rightImage: "/jcb1.png", // Direct path from public folder
       layout: "left",
+      buttonLink: "/contact-us"
     },
     {
       id: 3,
       title: "We Are Construction Company",
       subtitle: "from small houses to big buildings",
-      bgImage: slide2,
+      bgImage: "/slide2.png", // Direct path from public folder
       icons: false,
-      rightImage: jcb2,
+      rightImage: "/jcb2.png", // Direct path from public folder
       layout: "left",
+      buttonLink: "/contact-us"
     },
   ]);
+
+  const autoPlayRef = useRef(null);
 
   // Fixed delay values array
   const subtitleDelays = [0, 100, 200, 300, 400, 500];
@@ -62,45 +62,64 @@ const HeroSlider = () => {
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    };
   }, []);
 
   useEffect(() => {
-    if (!mounted || !isAutoPlaying) return;
+    // Clear any existing interval
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
+    }
 
-    const timer = setInterval(() => {
-      nextSlideAuto();
-    }, 5000);
+    if (mounted && isAutoPlaying) {
+      autoPlayRef.current = setInterval(() => {
+        nextSlideAuto();
+      }, 5000);
+    }
 
-    return () => clearInterval(timer);
-  }, [mounted, isAutoPlaying]);
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [mounted, isAutoPlaying, currentSlide]); // Added currentSlide to dependencies
 
   const nextSlideAuto = () => {
-    if (!mounted) return;
+    if (!mounted || isAnimating) return;
     setIsAnimating(true);
     setCurrentSlide((prev) => (prev + 1) % slidesRef.current.length);
-    setTimeout(() => setIsAnimating(false), 1000);
+    setTimeout(() => setIsAnimating(false), 700);
   };
 
   const nextSlide = () => {
+    if (isAnimating) return;
     setIsAnimating(true);
     setCurrentSlide((prev) => (prev + 1) % slidesRef.current.length);
     setIsAutoPlaying(false);
-    setTimeout(() => setIsAnimating(false), 1000);
+    setTimeout(() => setIsAnimating(false), 700);
   };
 
   const prevSlide = () => {
+    if (isAnimating) return;
     setIsAnimating(true);
     setCurrentSlide((prev) => (prev - 1 + slidesRef.current.length) % slidesRef.current.length);
     setIsAutoPlaying(false);
-    setTimeout(() => setIsAnimating(false), 1000);
+    setTimeout(() => setIsAnimating(false), 700);
   };
 
   const goToSlide = (index) => {
+    if (isAnimating || index === currentSlide) return;
     setIsAnimating(true);
     setCurrentSlide(index);
     setIsAutoPlaying(false);
-    setTimeout(() => setIsAnimating(false), 1000);
+    setTimeout(() => setIsAnimating(false), 700);
+  };
+
+  const handleButtonClick = (link) => {
+    router.push(link);
   };
 
   // Don't render animations until client-side
@@ -183,7 +202,7 @@ const HeroSlider = () => {
       {slidesRef.current.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-all duration-1000 ease-out ${
+          className={`absolute inset-0 transition-all duration-700 ease-out ${
             index === currentSlide
               ? "opacity-100 z-0 translate-x-0"
               : index < currentSlide
@@ -199,7 +218,7 @@ const HeroSlider = () => {
                 index === currentSlide ? "scale-110" : "scale-100"
               }`}
               style={{
-                backgroundImage: `url(${typeof slide.bgImage === "string" ? slide.bgImage : slide.bgImage.src})`,
+                backgroundImage: `url(${slide.bgImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -249,7 +268,10 @@ const HeroSlider = () => {
                     )}
                     {/* Slide 1 button - SLIDER 1 STYLE */}
                     <div className="flex justify-center">
-                      <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                      <button 
+                        onClick={() => handleButtonClick(slide.buttonLink)}
+                        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                      >
                         Learn More
                       </button>
                     </div>
@@ -295,7 +317,7 @@ const HeroSlider = () => {
                             : "translate-y-10 opacity-0 scale-95"
                         }`}>
                           <img
-                            src={typeof slide.rightImage === "string" ? slide.rightImage : slide.rightImage.src}
+                            src={slide.rightImage}
                             alt="Construction"
                             className="w-60 xs:w-65 sm:w-70 md:w-75 h-auto object-contain drop-shadow-2xl hero-float"
                           />
@@ -339,7 +361,10 @@ const HeroSlider = () => {
                           : "translate-y-10 opacity-0"
                       }`}>
                         <div className="flex justify-center w-full">
-                          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                          <button 
+                            onClick={() => handleButtonClick(slide.buttonLink)}
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                          >
                             Learn More
                           </button>
                         </div>
@@ -402,7 +427,10 @@ const HeroSlider = () => {
                             ? "translate-x-0 opacity-100" 
                             : "-translate-x-10 opacity-0"
                         }`}>
-                          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-sm lg:text-base xl:text-lg 2xl:text-xl px-6 lg:px-7 xl:px-8 2xl:px-10 py-3 lg:py-3.5 xl:py-4 2xl:py-5 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl">
+                          <button 
+                            onClick={() => handleButtonClick(slide.buttonLink)}
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-sm lg:text-base xl:text-lg 2xl:text-xl px-6 lg:px-7 xl:px-8 2xl:px-10 py-3 lg:py-3.5 xl:py-4 2xl:py-5 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                          >
                             Learn More
                           </button>
                         </div>
@@ -418,7 +446,7 @@ const HeroSlider = () => {
                       }`}>
                         <div className="relative w-full flex justify-center">
                           <img
-                            src={typeof slide.rightImage === "string" ? slide.rightImage : slide.rightImage.src}
+                            src={slide.rightImage}
                             alt="Construction"
                             className="w-[350px] lg:w-[420px] xl:w-[480px] 2xl:w-[550px] h-auto object-contain drop-shadow-2xl hero-float-slow"
                             style={{
