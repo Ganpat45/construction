@@ -228,6 +228,46 @@ export default function ProjectsPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Initialize likedProjects from localStorage on component mount
+  useEffect(() => {
+    const savedLikes = localStorage.getItem('constructionProjectsLikes');
+    if (savedLikes) {
+      try {
+        const parsedLikes = JSON.parse(savedLikes);
+        setLikedProjects(parsedLikes);
+        
+        // Initialize projectLikes with saved data
+        const initialProjectLikes = {};
+        projectsData.forEach(project => {
+          initialProjectLikes[project.id] = {
+            baseLikes: project.likes,
+            additionalLikes: parsedLikes.includes(project.id) ? 1 : 0
+          };
+        });
+        
+        setProjectLikes(initialProjectLikes);
+      } catch (error) {
+        console.error('Error parsing saved likes:', error);
+        // If there's an error, initialize with empty array
+        initializeProjectLikes();
+      }
+    } else {
+      initializeProjectLikes();
+    }
+  }, []);
+
+  // Function to initialize project likes
+  const initializeProjectLikes = () => {
+    const initialLikes = {};
+    projectsData.forEach(project => {
+      initialLikes[project.id] = {
+        baseLikes: project.likes,
+        additionalLikes: 0
+      };
+    });
+    setProjectLikes(initialLikes);
+  };
+
   // Track liked projects with their like counts
   const [projectLikes, setProjectLikes] = useState(() => {
     const initialLikes = {};
@@ -320,27 +360,31 @@ export default function ProjectsPage() {
   }, [showMobileFilters, isMobile]);
 
   const handleLike = (id) => {
+    let newLikedProjects;
+    let newAdditionalLikes;
+    
     if (likedProjects.includes(id)) {
       // Unlike: remove from liked projects and decrease additional likes
-      setLikedProjects(likedProjects.filter(projectId => projectId !== id));
-      setProjectLikes(prev => ({
-        ...prev,
-        [id]: {
-          ...prev[id],
-          additionalLikes: prev[id].additionalLikes - 1
-        }
-      }));
+      newLikedProjects = likedProjects.filter(projectId => projectId !== id);
+      newAdditionalLikes = -1;
     } else {
       // Like: add to liked projects and increase additional likes
-      setLikedProjects([...likedProjects, id]);
-      setProjectLikes(prev => ({
-        ...prev,
-        [id]: {
-          ...prev[id],
-          additionalLikes: prev[id].additionalLikes + 1
-        }
-      }));
+      newLikedProjects = [...likedProjects, id];
+      newAdditionalLikes = 1;
     }
+    
+    // Update state
+    setLikedProjects(newLikedProjects);
+    setProjectLikes(prev => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        additionalLikes: prev[id].additionalLikes + newAdditionalLikes
+      }
+    }));
+    
+    // Save to localStorage
+    localStorage.setItem('constructionProjectsLikes', JSON.stringify(newLikedProjects));
   };
 
   const stats = {
@@ -884,7 +928,7 @@ export default function ProjectsPage() {
                             </span>
                           </div>
                           
-                          {/* Social Actions - REMOVED: Share button */}
+                          {/* Social Actions - Only Like button with count */}
                           <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20">
                             <button 
                               onClick={(e) => {
@@ -892,7 +936,7 @@ export default function ProjectsPage() {
                                 e.stopPropagation();
                                 handleLike(project.id);
                               }}
-                              className="p-1.5 md:p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all hover:scale-110 active:scale-95"
+                              className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1.5 hover:bg-white transition-all hover:scale-105 active:scale-95"
                             >
                               <Heart 
                                 size={14} 
@@ -902,6 +946,9 @@ export default function ProjectsPage() {
                                     : 'text-gray-600'
                                 }`}
                               />
+                              <span className="text-xs font-medium text-gray-700">
+                                {getTotalLikes(project.id)}
+                              </span>
                             </button>
                           </div>
                         </div>
@@ -964,21 +1011,9 @@ export default function ProjectsPage() {
                               </div>
                             </div>
 
-                            {/* Bottom Actions */}
-                            <div className="mt-auto pt-3 md:pt-4 border-t border-gray-100 flex items-center justify-between">
+                            {/* Bottom Actions - Now empty since all interactions are in image overlay */}
+                            <div className="mt-auto pt-3 md:pt-4 border-t border-gray-100">
                               {/* Empty div to maintain spacing */}
-                              <div></div>
-                              <div className="flex items-center gap-2 md:gap-3">
-                                {/* Show dynamic likes count */}
-                                <span className="flex items-center gap-1 text-xs text-gray-500">
-                                  <Heart size={10} className={`${
-                                    likedProjects.includes(project.id) 
-                                      ? 'fill-red-500 text-red-500' 
-                                      : 'text-gray-400'
-                                  }`} />
-                                  {getTotalLikes(project.id)}
-                                </span>
-                              </div>
                             </div>
                           </div>
                         </div>
