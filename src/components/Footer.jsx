@@ -67,7 +67,7 @@ const Footer = () => {
               {/* Company Info */}
               <div className="text-center sm:text-left lg:text-left">
                 <h3 className="text-2xl sm:text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 text-white">
-                  BuildMaster{" "}
+                  Build Master{" "}
                   <span className="text-[#e0951f]">Constructions</span>
                 </h3>
                 <p className="text-gray-200 mb-6 text-base lg:text-lg leading-relaxed">
@@ -221,7 +221,7 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
               <div className="flex flex-col justify-center items-center">
                 <p className="text-gray-300 text-sm text-center">
-                  © {new Date().getFullYear()} BuildMaster Constructions. All
+                  © {new Date().getFullYear()} Build Master Constructions. All
                   rights reserved.
                 </p>
               </div>
