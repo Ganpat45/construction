@@ -287,7 +287,7 @@ const HeroSlider = () => {
                         </h2>
                       </div>
 
-                      {/* SLIDER 2 & 3 IMAGE - MOBILE VIEW */}
+                      {/* SLIDER 2 & 3 IMAGE - MOBILE VIEW - LARGER SIZE */}
                       {slide.rightImage && (
                         <div className={`mb-4 sm:mb-6 md:mb-8 flex justify-center w-full transform transition-all duration-700 delay-300 ${
                           index === currentSlide 
@@ -297,7 +297,7 @@ const HeroSlider = () => {
                           <img
                             src={typeof slide.rightImage === "string" ? slide.rightImage : slide.rightImage.src}
                             alt="Construction"
-                            className="w-40 xs:w-44 sm:w-48 md:w-52 h-auto object-contain drop-shadow-2xl hero-float"
+                            className="w-60 xs:w-65 sm:w-70 md:w-75 h-auto object-contain drop-shadow-2xl hero-float"
                           />
                         </div>
                       )}
@@ -409,7 +409,7 @@ const HeroSlider = () => {
                       </div>
                     </div>
 
-                    {/* SLIDER 2 & 3 IMAGE - DESKTOP VIEW */}
+                    {/* SLIDER 2 & 3 IMAGE - DESKTOP VIEW - LARGER SIZE */}
                     {slide.rightImage && (
                       <div className={`flex items-center justify-center transform transition-all duration-1000 delay-300 ${
                         index === currentSlide 
@@ -420,9 +420,9 @@ const HeroSlider = () => {
                           <img
                             src={typeof slide.rightImage === "string" ? slide.rightImage : slide.rightImage.src}
                             alt="Construction"
-                            className="w-[280px] lg:w-[350px] xl:w-[400px] 2xl:w-[450px] h-auto object-contain drop-shadow-2xl hero-float-slow"
+                            className="w-[350px] lg:w-[420px] xl:w-[480px] 2xl:w-[550px] h-auto object-contain drop-shadow-2xl hero-float-slow"
                             style={{
-                              maxHeight: "65vh"
+                              maxHeight: "75vh"
                             }}
                           />
                         </div>

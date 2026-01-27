@@ -6,304 +6,391 @@ import {
   Mail,
   User,
   Send,
-  Globe,
   MapPin,
   MessageCircle,
-  Clock,
-  Home,
+  Calendar,
+  DollarSign,
+  Wrench,
+  Building,
+  Briefcase,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     fullName: "",
+    mobile: "",
     email: "",
-    website: "",
-    message: "",
+    location: "",
+    workType: "",
+    workDescription: "",
+    startDate: "",
+    budget: "",
+    propertyType: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const workTypes = [
+    "Plumbing",
+    "Electrical Work",
+    "Carpentry",
+    "Masonry & Plastering",
+    "Painting",
+    "Flooring & Tiling",
+    "Roofing",
+    "Iron & Steel Work",
+    "Glass & Aluminum",
+    "Civil Construction",
+    "Renovation",
+    "Demolition",
+    "Other",
+  ];
+
+  const propertyTypes = [
+    "Residential House",
+    "Apartment",
+    "Commercial Building",
+    "Office Space",
+    "Shop/Retail",
+    "Factory/Warehouse",
+    "Renovation Project",
+    "New Construction",
+    "Other",
+  ];
+
+  const budgetRanges = [
+    "Select budget range",
+    "₹10,000 - ₹50,000",
+    "₹50,000 - ₹1,00,000",
+    "₹1,00,000 - ₹5,00,000",
+    "₹5,00,000 - ₹10,00,000",
+    "₹10,00,000 - ₹25,00,000",
+    "₹25,00,000 - ₹50,00,000",
+    "₹50,00,000+",
+    "Custom Budget",
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
     console.log("Form submitted:", formData);
-    alert("Message sent successfully!");
-    setFormData({ fullName: "", email: "", website: "", message: "" });
+    setSubmitted(true);
+    
+    setTimeout(() => {
+      setFormData({
+        fullName: "",
+        mobile: "",
+        email: "",
+        location: "",
+        workType: "",
+        workDescription: "",
+        startDate: "",
+        budget: "",
+        propertyType: "",
+      });
+      setSubmitted(false);
+    }, 3000);
+    
     setIsSubmitting(false);
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const contactInfo = [
-    {
-      icon: <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />,
-      title: "Our Location",
-      details: ["123 Business Street", "NY 10001"],
-    },
-    {
-      icon: <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />,
-      title: "Phone Number",
-      details: ["+1 (555) 123-4567"],
-    },
-    {
-      icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />,
-      title: "Email Address",
-      details: ["contact@example.com"],
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-6 px-4 sm:py-8 sm:px-6 lg:py-12 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8 sm:mb-10 lg:mb-12">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-            Get In <span className="text-yellow-500">Touch</span>
-          </h1>
-          <p className="text-gray-600 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto">
-            We're here to help! Reach out with any questions or project
-            inquiries.
-          </p>
-        </div>
-
-        {/* Main Content - Responsive Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
-          {/* Left Column - Contact Info */}
-          <div className="lg:col-span-4">
-            <div className="space-y-4 sm:space-y-6">
-              {contactInfo.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-yellow-50">
-                      {item.icon}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">
-                        {item.title}
-                      </h3>
-                      {item.details.map((detail, idx) => (
-                        <p key={idx} className="text-sm text-gray-600 truncate">
-                          {detail}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              {/* Business Hours */}
-              <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-yellow-50">
-                    <Clock className="w-5 h-5 text-yellow-500" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3">
-                      Business Hours
-                    </h3>
-                    <div className="space-y-2">
-                      {[
-                        { day: "Mon - Fri", time: "9:00 AM - 6:00 PM" },
-                        { day: "Saturday", time: "10:00 AM - 4:00 PM" },
-                        { day: "Sunday", time: "Closed" },
-                      ].map((schedule, idx) => (
-                        <div
-                          key={idx}
-                          className="flex justify-between items-center"
-                        >
-                          <span className="text-sm text-gray-600">
-                            {schedule.day}
-                          </span>
-                          <span className="text-sm font-medium">
-                            {schedule.time}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div className="min-h-screen">
+      {/* Main Contact Form Section */}
+      <div className="bg-gradient-to-b from-gray-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+           
+            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+              Construction Services Quote
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Fill out the form to get connected with construction professionals
+            </p>
           </div>
 
-          {/* Middle Column - Contact Form */}
-          <div className="lg:col-span-4">
-            <div className="bg-white rounded-xl p-5 sm:p-6 lg:p-8 shadow-sm border border-gray-100 h-full">
-              <div className="mb-6 sm:mb-8">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-yellow-50 mr-3">
-                    <MessageCircle className="w-5 h-5 text-yellow-500" />
-                  </div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                    Send Message
-                  </h2>
-                </div>
-                <p className="text-gray-500 text-sm sm:text-base">
-                  Fill out the form below and we'll get back to you
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Full Name */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <User className="h-5 w-5 text-yellow-500" />
+          {/* Main Content Grid - Form Left, Map Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Left Column - Contact Form */}
+            <div className="lg:col-span-7">
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                {/* Form Header */}
+                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 p-6 text-white">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white/20">
+                      <MessageCircle className="w-8 h-8" />
                     </div>
-                    <input
-                      type="text"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      className="pl-12 w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
-                      placeholder="Enter your name"
-                      required
-                    />
+                    <div>
+                      <h2 className="text-3xl font-bold">Get a Free Quote</h2>
+                      <p className="text-yellow-100">Complete the form for construction services</p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Email */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-yellow-500" />
+                {/* Success Message */}
+                {submitted && (
+                  <div className="bg-green-50 border border-green-200 p-4 m-6 rounded-lg flex items-center gap-3">
+                    <ShieldCheck className="w-6 h-6 text-green-600" />
+                    <div>
+                      <h3 className="font-bold text-green-900">Request Submitted</h3>
+                      <p className="text-green-700">We will contact you soon</p>
                     </div>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="pl-12 w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
-                      placeholder="your@email.com"
-                      required
-                    />
                   </div>
-                </div>
+                )}
 
-                {/* Website */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Website <span className="text-gray-400">(Optional)</span>
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Globe className="h-5 w-5 text-yellow-500" />
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                  {/* Row 1: Name & Mobile */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <User className="w-4 h-4 text-yellow-600" />
+                        Full Name 
+                      </label>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
+                        placeholder="Enter your name"
+                        required
+                      />
                     </div>
-                    <input
-                      type="url"
-                      name="website"
-                      value={formData.website}
-                      onChange={handleChange}
-                      className="pl-12 w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
-                      placeholder="https://example.com"
-                    />
+
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <Phone className="w-4 h-4 text-yellow-600" />
+                        Mobile Number 
+                      </label>
+                      <input
+                        type="tel"
+                        name="mobile"
+                        value={formData.mobile}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
+                        placeholder="Enter mobile number"
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Message */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
-                  </label>
-                  <div className="relative">
-                    <div className="absolute top-3 left-3 pointer-events-none">
-                      <MessageCircle className="h-5 w-5 text-yellow-500" />
+                  {/* Row 2: Email & Location */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <Mail className="w-4 h-4 text-yellow-600" />
+                        Email Address 
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
+                        placeholder="Enter email address"
+                        required
+                      />
                     </div>
+
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <MapPin className="w-4 h-4 text-yellow-600" />
+                        Project Location 
+                      </label>
+                      <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
+                        placeholder="Enter project address"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 3: Work Type & Property Type */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <Wrench className="w-4 h-4 text-yellow-600" />
+                        Type of Work 
+                      </label>
+                      <select
+                        name="workType"
+                        value={formData.workType}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition bg-white"
+                        required
+                      >
+                        <option value="">Select work type</option>
+                        {workTypes.map((type, index) => (
+                          <option key={index} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <Building className="w-4 h-4 text-yellow-600" />
+                        Property Type 
+                      </label>
+                      <select
+                        name="propertyType"
+                        value={formData.propertyType}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition bg-white"
+                        required
+                      >
+                        <option value="">Select property type</option>
+                        {propertyTypes.map((type, index) => (
+                          <option key={index} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Row 4: Start Date & Budget */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <Calendar className="w-4 h-4 text-yellow-600" />
+                        Project Start Date
+                        <span className="text-gray-400 font-normal"> (Optional)</span>
+                      </label>
+                      <input
+                        type="date"
+                        name="startDate"
+                        value={formData.startDate}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                        <DollarSign className="w-4 h-4 text-yellow-600" />
+                        Estimated Budget Range
+                        <span className="text-gray-400 font-normal"> (Optional)</span>
+                      </label>
+                      <select
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition bg-white"
+                      >
+                        {budgetRanges.map((range, index) => (
+                          <option key={index} value={range}>
+                            {range}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Work Description */}
+                  <div>
+                    <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                      <MessageCircle className="w-4 h-4 text-yellow-600" />
+                      Project Description 
+                    </label>
                     <textarea
-                      name="message"
-                      value={formData.message}
+                      name="workDescription"
+                      value={formData.workDescription}
                       onChange={handleChange}
                       rows="4"
-                      className="pl-12 w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none resize-none transition min-h-[120px]"
-                      placeholder="How can we help you?"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition resize-none"
+                      placeholder="Describe your construction project requirements in detail"
                       required
                     />
                   </div>
-                </div>
 
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold text-base py-4 px-6 rounded-xl transition duration-200 flex items-center justify-center shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed active:scale-[0.98]"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-3" />
-                      <span>SEND MESSAGE</span>
-                    </>
-                  )}
-                </button>
-              </form>
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-4 px-6 rounded-lg transition duration-200 flex items-center justify-center shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                        <span>Submitting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5 mr-3" />
+                        <span className="text-lg">REQUEST QUOTE</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
             </div>
-          </div>
 
-          {/* Right Column - Map */}
-          <div className="lg:col-span-4">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 h-full flex flex-col">
-              <div className="p-5 sm:p-6 lg:p-8">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-yellow-50 mr-3">
-                    <MapPin className="w-5 h-5 text-yellow-500" />
+            {/* Right Column - Map */}
+            <div className="lg:col-span-5">
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden h-full flex flex-col">
+                {/* Map Container */}
+                <div className="flex-1 min-h-[400px] relative">
+                  <div className="absolute inset-0">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.3140443945867!2d78.48661497570302!3d17.444648299999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9122577d6f8f%3A0xaa4a52cb2c7dddd8!2sHITEC%20City%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1703323456789!5m2!1sen!2sin"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="absolute inset-0"
+                      title="Service Area Map"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/5 to-transparent pointer-events-none"></div>
                   </div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                    Our Location
-                  </h2>
                 </div>
 
-                <div className="mb-4">
-                  <div className="flex items-start mb-2">
-                    <Home className="w-5 h-5 text-yellow-500 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700 text-base">
-                      123 Business Street, New York, NY 10001
-                    </span>
+                {/* Map Footer Info */}
+                <div className="p-6 bg-gray-50 border-t border-gray-200">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-50 flex-shrink-0">
+                        <Briefcase className="w-5 h-5 text-yellow-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Service Coverage</h4>
+                        <p className="text-sm text-gray-600">City-wide & suburban areas</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-50 flex-shrink-0">
+                        <Phone className="w-5 h-5 text-yellow-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Emergency Service</h4>
+                        <p className="text-sm text-gray-600">Available 24/7</p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-gray-500 text-sm pl-8">
-                    Easily accessible via public transport
-                  </p>
                 </div>
               </div>
-
-              {/* Map Container */}
-              <div className="flex-1 min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] relative">
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/10 to-transparent z-10 pointer-events-none"></div>
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.183950688192!2d-73.98784428459374!3d40.757978679327!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1678884567890!5m2!1sen!2sus"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0"
-                  title="Google Map Location"
-                />
-
-                {/* Map Hint */}
-              </div>
-
-              {/* Map Footer */}
             </div>
           </div>
         </div>

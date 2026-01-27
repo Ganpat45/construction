@@ -1,9 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight, Phone } from 'lucide-react';
 
 const CTA = () => {
   return (
-    <section className="bg-yellow-500 text-white py-16 px-4">
+    <section className="w-[97%] mx-auto bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-16 rounded-2xl px-4 mb-[50px]">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">
           Ready to Start Your Project?

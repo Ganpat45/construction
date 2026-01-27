@@ -22,7 +22,7 @@ export default function ProjectsGallery() {
       id: 1,
       title: "Central Hospital",
       subtitle: "building",
-      category: "Houses",
+      category: "Hospitals", // Changed from "Houses"
       image: "/project1.png",
     },
     {
@@ -43,21 +43,21 @@ export default function ProjectsGallery() {
       id: 4,
       title: "Rebuilding an old University",
       subtitle: "university, building",
-      category: "Schools",
+      category: "Universities", // Changed from "Schools"
       image: "/project4.png",
     },
     {
       id: 5,
       title: "Safety Boots",
       subtitle: "safety, equipment",
-      category: "Universities",
+      category: "Offices", // Changed from "Universities"
       image: "/project5.png",
     },
     {
       id: 6,
       title: "Big Trucks on Action",
       subtitle: "cat, building",
-      category: "Offices",
+      category: "Schools", // Changed from "Offices"
       image: "/project6.png",
     },
   ];
@@ -68,9 +68,9 @@ export default function ProjectsGallery() {
       : projects.filter((project) => project.category === activeFilter);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="max-w-7xl mx-auto bg-white" id="project">
       {/* Header Section */}
-      <div className="bg-white py-8 md:py-16 text-center border-b border-gray-200 px-4">
+      <div className=" bg-white py-8 md:py-16 text-center border-b border-gray-200 px-4">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-800 mb-4">
           Our Projects
         </h1>
@@ -100,10 +100,10 @@ export default function ProjectsGallery() {
       {/* Filter Navigation */}
       <div
         className={`bg-white border-b border-gray-200 transition-all duration-300 ${
-          showMobileFilters ? "max-h-96 opacity-100" : "max-h-0 opacity-0 md:max-h-full md:opacity-100"
+          showMobileFilters ? "max-h-96 opacity-100 py-4" : "max-h-0 opacity-0 md:max-h-full md:opacity-100"
         } overflow-hidden md:overflow-visible md:block md:py-6`}
       >
-        <div className="container mx-auto px-4 py-4 md:py-0">
+        <div className="container mx-auto px-4">
           {/* Mobile Filters Grid */}
           <div className="md:hidden">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -153,9 +153,9 @@ export default function ProjectsGallery() {
         </div>
       </div>
 
-      {/* Projects Grid */}
+      {/* Projects Grid - ALWAYS use the same grid layout */}
       <div className="container mx-auto px-4 py-4 md:py-8">
-        {/* "Show All" View - Fixed 2 rows layout */}
+        {/* For Show All: Show all 6 projects in 2 rows */}
         {activeFilter === "Show All" ? (
           <div className="space-y-6 md:space-y-8">
             {/* First Row: 1-2-3 */}
@@ -173,11 +173,40 @@ export default function ProjectsGallery() {
             </div>
           </div>
         ) : (
-          /* Filtered Results View */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+          /* For other filters: Show filtered projects with centered layout */
+          <div className="min-h-[400px] flex flex-col items-center justify-center">
+            <div className="w-full max-w-4xl">
+              {/* Show filtered projects count */}
+              <div className="mb-6 md:mb-8 text-center">
+                <p className="text-gray-600 text-sm md:text-base">
+                  Showing {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} for <span className="text-orange-500 font-medium">{activeFilter}</span>
+                </p>
+              </div>
+              
+              {/* Filtered projects grid - always centered */}
+              {filteredProjects.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                  {filteredProjects.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                  ))}
+                  
+                  {/* Add empty placeholder cards to maintain grid layout for 1 or 2 items */}
+                  {filteredProjects.length === 1 && (
+                    <>
+                      <div className="hidden md:block"></div>
+                      <div className="hidden md:block"></div>
+                    </>
+                  )}
+                  {filteredProjects.length === 2 && (
+                    <div className="hidden md:block"></div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-16">
+                  <p className="text-gray-500 text-lg">No projects found for this filter.</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -185,7 +214,7 @@ export default function ProjectsGallery() {
   );
 }
 
-// Project Card Component
+// Project Card Component - EXACTLY as you had it
 function ProjectCard({ project }) {
   return (
     <div className="relative group overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer aspect-[4/3]">
@@ -208,8 +237,6 @@ function ProjectCard({ project }) {
           {project.subtitle}
         </p>
       </div>
-      
-      {/* Hover Overlay */}
-      </div>
+    </div>
   );
 }

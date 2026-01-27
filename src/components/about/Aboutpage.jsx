@@ -10,7 +10,10 @@ import {
   Linkedin,
   Twitter,
   Mail,
+  Phone,
+  Calendar,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutPage() {
   const [counts, setCounts] = useState({
@@ -21,18 +24,20 @@ export default function AboutPage() {
     clients: 0,
     experience: 0,
   });
+  const [hasAnimated, setHasAnimated] = useState(false);
   const statsRef = useRef(null);
 
   // Count animation effect
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && !hasAnimated) {
           startCountAnimation();
+          setHasAnimated(true);
           observer.disconnect();
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     );
 
     if (statsRef.current) {
@@ -40,7 +45,7 @@ export default function AboutPage() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [hasAnimated]);
 
   const startCountAnimation = () => {
     const targetValues = {
@@ -52,8 +57,8 @@ export default function AboutPage() {
       experience: 15,
     };
 
-    const duration = 2000;
-    const steps = 60;
+    const duration = 2000; // 2 seconds total
+    const steps = 60; // 60 steps
     const stepDuration = duration / steps;
 
     Object.keys(targetValues).forEach((key) => {
@@ -74,10 +79,6 @@ export default function AboutPage() {
         }));
       }, stepDuration);
     });
-  };
-
-  const handleContactClick = () => {
-    window.location.href = "/contact-us";
   };
 
   const stats = [
@@ -112,7 +113,7 @@ export default function AboutPage() {
       key: "clients",
     },
     {
-      icon: Building2,
+      icon: Calendar,
       value: `${counts.experience}+`,
       label: "Years Experience",
       key: "experience",
@@ -153,24 +154,10 @@ export default function AboutPage() {
     },
   ];
 
-  const values = [
-    {
-      title: "Quality First",
-      desc: "Excellence in every project we undertake",
-    },
-    { title: "Innovation", desc: "Cutting-edge solutions and technologies" },
-    {
-      title: "Sustainability",
-      desc: "Eco-friendly and responsible construction",
-    },
-    { title: "Integrity", desc: "Transparent and honest business practices" },
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-12 px-4 overflow-hidden mb-[-50px]">
-
+      <section className="relative pt-20 pb-12 px-4 overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-grey-900">
@@ -213,17 +200,33 @@ export default function AboutPage() {
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-grey-900 leading-tight">
                 Crafting Excellence Since 2010
               </h2>
-              
+
               <div className="space-y-4">
                 <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-                  We are a leading construction company dedicated to delivering exceptional quality and innovation in every project. Our commitment to excellence has made us a trusted partner for residential, commercial, and industrial construction.
+                  We are a leading construction company dedicated to delivering
+                  exceptional quality and innovation in every project. Our
+                  commitment to excellence has made us a trusted partner for
+                  residential, commercial, and industrial construction.
                 </p>
                 <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-                  With a team of experienced professionals and cutting-edge technology, we transform visions into reality, building structures that stand the test of time while prioritizing sustainability and client satisfaction.
+                  With a team of experienced professionals and cutting-edge
+                  technology, we transform visions into reality, building
+                  structures that stand the test of time while prioritizing
+                  sustainability and client satisfaction.
                 </p>
               </div>
-              
-             
+
+              {/* Additional Stats Inside Content */}
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-yellow-600">100%</div>
+                  <div className="text-sm text-slate-700">Safety Record</div>
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-yellow-600">98%</div>
+                  <div className="text-sm text-slate-700">On-Time Delivery</div>
+                </div>
+              </div>
             </div>
 
             {/* Image Container */}
@@ -234,11 +237,15 @@ export default function AboutPage() {
                   alt="About Us - Construction Company"
                   className="w-full h-full object-cover object-center"
                 />
-                
+
                 {/* Stats Badge */}
                 <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-sm p-5 rounded-xl shadow-lg">
-                  <div className="text-4xl font-bold text-yellow-600">15+</div>
-                  <div className="text-sm text-slate-700 font-medium mt-1">Years Experience</div>
+                  <div className="text-4xl font-bold text-yellow-600">
+                    {counts.experience}+
+                  </div>
+                  <div className="text-sm text-slate-700 font-medium mt-1">
+                    Years Experience
+                  </div>
                 </div>
               </div>
             </div>
@@ -264,18 +271,30 @@ export default function AboutPage() {
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover object-top hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover object-top"
                     />
 
                     {/* Social Links Overlay */}
                     <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3">
-                      <a href={member.social.linkedin} className="bg-white/95 p-2.5 rounded-full hover:bg-yellow-500 hover:text-white transition-all duration-300 shadow-md">
+                      <a
+                        href={member.social.linkedin}
+                        className="bg-white/95 p-2.5 rounded-full hover:bg-yellow-500 hover:text-white transition-all duration-300 shadow-md"
+                        aria-label={`Connect with ${member.name} on LinkedIn`}
+                      >
                         <Linkedin className="w-5 h-5" />
                       </a>
-                      <a href={member.social.twitter} className="bg-white/95 p-2.5 rounded-full hover:bg-yellow-500 hover:text-white transition-all duration-300 shadow-md">
+                      <a
+                        href={member.social.twitter}
+                        className="bg-white/95 p-2.5 rounded-full hover:bg-yellow-500 hover:text-white transition-all duration-300 shadow-md"
+                        aria-label={`Follow ${member.name} on Twitter`}
+                      >
                         <Twitter className="w-5 h-5" />
                       </a>
-                      <a href={member.social.email} className="bg-white/95 p-2.5 rounded-full hover:bg-yellow-500 hover:text-white transition-all duration-300 shadow-md">
+                      <a
+                        href={member.social.email}
+                        className="bg-white/95 p-2.5 rounded-full hover:bg-yellow-500 hover:text-white transition-all duration-300 shadow-md"
+                        aria-label={`Email ${member.name}`}
+                      >
                         <Mail className="w-5 h-5" />
                       </a>
                     </div>
@@ -286,9 +305,7 @@ export default function AboutPage() {
                     <h3 className="text-xl font-bold text-slate-800 mb-2">
                       {member.name}
                     </h3>
-                    <p className="text-yellow-600 font-medium">
-                      {member.role}
-                    </p>
+                    <p className="text-yellow-600 font-medium">{member.role}</p>
                   </div>
                 </div>
               ))}
@@ -296,20 +313,30 @@ export default function AboutPage() {
           </div>
 
           {/* CTA Section */}
-          <div className="bg-gradient-to-r from-yellow-500 to-amber-600 rounded-2xl p-8 md:p-12 text-center text-white shadow-2xl">
+          <div className="max-w-7xl mx-auto rounded-2xl bg-gradient-to-r from-yellow-500 to-yellow-600 p-8 md:p-12 text-center text-white shadow-2xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Start Your Project?
             </h2>
-            <p className="text-lg mb-8 opacity-95 max-w-2xl mx-auto">
-              Let's build something amazing together
+            <p className="text-lg md:text-xl mb-8">
+              Contact us today for a free consultation and quote.
             </p>
-            <button
-              onClick={handleContactClick}
-              className="bg-white text-yellow-600 px-8 py-3.5 rounded-full font-bold hover:shadow-xl transition-all duration-300 hover:scale-105 inline-flex items-center space-x-2"
-            >
-              <span>Get in Touch</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contact"
+                className="bg-white text-yellow-600 font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center shadow-lg"
+              >
+                Get Free Quote
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
+
+              <a
+                href="tel:+3995003219548"
+                className="bg-transparent border-2 border-white font-bold py-4 px-8 rounded-lg hover:bg-white/10 transition-colors duration-300 flex items-center justify-center shadow-lg"
+              >
+                <Phone className="w-5 h-5 mr-2" />
+                Call Now
+              </a>
+            </div>
           </div>
         </div>
       </section>
